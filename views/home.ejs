@@ -1,0 +1,62 @@
+<!--Filename: home.ejs-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Home</title>
+  </head>
+  <body>
+    <div class="center">
+      <h1>Task Mates🫱🏼‍🫲🏿</h1>
+      <h4>You're friendly task management system</h4>
+    </div>
+    <div class="container">
+    <div class="left">
+      <h3><%= title %></h3>
+      <form method="POST" action="/add-task">
+        <label for="task">Enter Task</label>
+        <input type="text" name="task" id="task" required> <br> <br>
+        <label for="description">Add a Description (Optional)</label>
+        <input type="text" name="description" id="description"> <br> <br>
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+    <div class="right">
+    <h3>View List of Tasks</h3>
+    <ul style="list-style-type: none; padding: 0;">
+    <% tasks.forEach(function(task, index) { %>
+        <li style="display: flex; align-items: center; gap: 10px;">
+            <!-- Task Complete Form (Inline Checkbox) -->
+            <form method="POST" action="/toggle-task" style="display: inline;">
+                <input type="hidden" name="index" value="<%= index %>">
+                <input 
+                    type="checkbox" 
+                    onchange="this.form.submit()" 
+                    <%= task.completed ? "checked" : "" %>
+                >
+            </form>
+            <!-- Task Name with Conditional Style for Completed -->
+            <span class="<%= task.completed ? 'completed-task' : '' %>">
+              <%= index + 1 %>. <%= task.name %>
+                <% if (task.description) { %>
+                  - <em><%= task.description %></em>
+              <% } %>
+            </span>
+            <!-- Delete Form (Inline) -->
+            <form method="POST" action="/delete-task" style="display: inline;">
+                <input type="hidden" name="index" value="<%= index %>">
+                <button type="submit">❌ Delete</button>
+            </form>
+        </li>
+    <% }); %>
+  </ul>
+  </div>
+  </div>
+  </body>
+</html>
