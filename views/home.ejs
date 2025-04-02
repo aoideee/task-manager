@@ -52,6 +52,7 @@
               <%= index + 1 %>. <%= task.taskname %>
                 <% if (task.description) { %> - <em><%= task.description %></em> <% } %>
                 <% if (task.priority) { %>
+                 <% if (task.priority) { %>
                   <div class="priority-tag <%= task.priority.toLowerCase() %>">
                     <%= task.priority %>
                   </div>

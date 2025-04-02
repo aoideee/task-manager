@@ -51,6 +51,29 @@ body {
 .right li {
     background-color: #fffacc;
     padding: 15px;
+    width: 45%;
+    background-color: #fffacc;
+    padding: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.right {
+    width: 45%;
+    padding: 15px;
+    background-color: transparent;
+}
+
+.right ul {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+}
+
+.right li {
+    background-color: #fffacc;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
     position: relative;
@@ -135,6 +158,30 @@ button:hover {
 
 .error-box li {
     list-style: disc;
+}
+
+.priority-tag {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.priority-tag.low {
+  background-color: #4caf50; 
+}
+
+.priority-tag.medium {
+  background-color: #ff9800; 
+}
+
+.priority-tag.high {
+  background-color: #f44336; 
 }
 
 .completed-task {
