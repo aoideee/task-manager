@@ -51,7 +51,11 @@
             <span class="<%= task.completed ? 'completed-task' : '' %>">
               <%= index + 1 %>. <%= task.taskname %>
                 <% if (task.description) { %> - <em><%= task.description %></em> <% } %>
-                 <% if (task.priority) { %> - <strong>[<%= task.priority %> Priority]</strong><% } %>
+                 <% if (task.priority) { %>
+                  <div class="priority-tag <%= task.priority.toLowerCase() %>">
+                    <%= task.priority %>
+                  </div>
+                <% } %>
             </span>
             <!-- Delete Form (Inline) -->
             <form method="POST" action="/delete-task" style="display: inline;">
