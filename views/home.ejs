@@ -1,4 +1,4 @@
-<!--Filename: home.ejs-->
+<!--Filename: /views/home.ejs-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +24,13 @@
         <input type="text" name="task" id="task" required> <br> <br>
         <label for="description">Add a Description (Optional)</label>
         <input type="text" name="description" id="description"> <br> <br>
+        <label for="priority">Priority</label>
+        <select name="priority" id="priority">
+          <option value="Low" selected>Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <br><br>
         <button type="submit">Add Task</button>
       </form>
     </div>
@@ -34,23 +41,21 @@
         <li style="display: flex; align-items: center; gap: 10px;">
             <!-- Task Complete Form (Inline Checkbox) -->
             <form method="POST" action="/toggle-task" style="display: inline;">
-                <input type="hidden" name="index" value="<%= index %>">
+                <input type="hidden" name="index" value="<%= task.id %>">
                 <input 
                     type="checkbox" 
                     onchange="this.form.submit()" 
-                    <%= task.completed ? "checked" : "" %>
-                >
+                    <%= task.completed ? "checked" : "" %> >
             </form>
             <!-- Task Name with Conditional Style for Completed -->
             <span class="<%= task.completed ? 'completed-task' : '' %>">
-              <%= index + 1 %>. <%= task.name %>
-                <% if (task.description) { %>
-                  - <em><%= task.description %></em>
-              <% } %>
+              <%= index + 1 %>. <%= task.taskname %>
+                <% if (task.description) { %> - <em><%= task.description %></em> <% } %>
+                 <% if (task.priority) { %> - <strong>[<%= task.priority %> Priority]</strong><% } %>
             </span>
             <!-- Delete Form (Inline) -->
             <form method="POST" action="/delete-task" style="display: inline;">
-                <input type="hidden" name="index" value="<%= index %>">
+                <input type="hidden" name="index" value="<%= task.id %>">
                 <button type="submit">❌ Delete</button>
             </form>
         </li>

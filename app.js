@@ -25,14 +25,6 @@ app.use(loggingMiddleware);
 // Route handler setup
 app.use("/", taskmanRoutes);
 
-// 404 handler
-app.use((req, res) => {
-    res.status(404).render("notfound", {
-      title: "Not Found",
-      message: "Woahhh 0_0! Slow down there pal~ That page doesn't exist...",
-    });
-});
-
 // Start the server
 const PORT = 3000;
 
