@@ -26,23 +26,23 @@ Welcome to **Task Mates**, a simple, server-rendered task management web app bui
 ```bash
 git clone https://github.com/aoideee/task-manager.git
 cd task-manager
-
-    Install dependencies
-
+```
+2. **Install dependencies**
+```bash
 npm install
-
-    Create a .env file
-
+```
+3. **Create a .env file**
+```bash
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=your_postgres_user
 DB_PASSWORD=your_postgres_password
 DB_NAME=taskmates_db
-
-    Set up the database
+```
+4. **Set up the database**
 
 Run this SQL in your PostgreSQL shell or GUI:
-
+```bash
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   title VARCHAR(100) NOT NULL,
@@ -51,41 +51,43 @@ CREATE TABLE tasks (
   completed BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
-
-    Start the server
-
+```
+5. **Start the server**
+```bash
 node app.js
-
+```
 or
-
+```bash
 npx nodemon app.js
+```
+6. **Visit:**
+```bash
+http://localhost:3000
+```
 
-    Visit: http://localhost:3000
+## ✅ Features
 
-✅ Features
+- Server-side rendering using EJS
 
-    Server-side rendering using EJS
+- Clean MVC structure
 
-    Clean MVC structure
+- Form validation with inline error display
 
-    Form validation with inline error display
+- Priority badge styles (Low, Medium, High)
 
-    Priority badge styles (Low, Medium, High)
+- Completed task styling
 
-    Completed task styling
+- Partials for reusable layout (header/footer)
 
-    Partials for reusable layout (header/footer)
+## 🛠 Technologies Used
+- Node.js
 
-🛠 Technologies Used
+- Express
 
-    Node.js
+- PostgreSQL
 
-    Express
+- EJS
 
-    PostgreSQL
+- CSS (custom, no frameworks)
 
-    EJS
-
-    CSS (custom, no frameworks)
-
-    dotenv
+- dotenv
