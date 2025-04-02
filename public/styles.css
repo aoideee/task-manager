@@ -33,6 +33,26 @@ body {
     border-radius: 8px;
 }
 
+.error-box {
+  background-color: #ffe0e0;
+  border: 1px solid #ff4d4d;
+  color: #cc0000;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.error-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.error-box li {
+  list-style: disc;
+}
+
+
 .completed-task {
     text-decoration: line-through;
     color: gray;

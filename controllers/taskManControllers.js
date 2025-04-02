@@ -11,6 +11,21 @@ export const getHome = async (req, res) => {
 // Add new task
 export const postAddTask = async (req, res) => {
   const { task, description, priority } = req.body;
+  const errors = [];
+
+  if (!task || task.trim().length < 3 || task.length > 100) {
+    errors.push("Task title must be between 3 and 100 characters.");
+  }
+
+  if (description && description.length > 500) {
+    errors.push("Description cannot exceed 500 characters");
+  }
+
+  if (errors.length > 0) {
+    const tasks = await getTasks();
+    return res.render("home", {title: "Task Mates", tasks, errors});
+  }
+
   await addTask(task, description, priority);
   res.redirect('/');
 };
