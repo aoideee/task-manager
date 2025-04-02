@@ -27,11 +27,11 @@ Welcome to **Task Mates**, a simple, server-rendered task management web app bui
 git clone https://github.com/aoideee/task-manager.git
 cd task-manager
 
-2. **Install dependencies**
+    Install dependencies
 
 npm install
 
-3. **Create a .env file**
+    Create a .env file
 
 DB_HOST=localhost
 DB_PORT=5432
@@ -39,7 +39,7 @@ DB_USER=your_postgres_user
 DB_PASSWORD=your_postgres_password
 DB_NAME=taskmates_db
 
-4. **Set up the database**
+    Set up the database
 
 Run this SQL in your PostgreSQL shell or GUI:
 
@@ -52,16 +52,17 @@ CREATE TABLE tasks (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-5. **Start the server**
+    Start the server
 
 node app.js
-# or
+
+or
+
 npx nodemon app.js
 
-6. **Visit:**
-http://localhost:3000
+    Visit: http://localhost:3000
 
-## ✅ Features
+✅ Features
 
     Server-side rendering using EJS
 
@@ -75,7 +76,7 @@ http://localhost:3000
 
     Partials for reusable layout (header/footer)
 
-## 🛠 Technologies Used
+🛠 Technologies Used
 
     Node.js
 
