@@ -41,7 +41,7 @@ DB_NAME=taskmates_db
 ```
 4. **Set up the database**
 
-  Run this SQL in your PostgreSQL shell or GUI:
+<p style="text-indent: 2em;">Run this SQL in your PostgreSQL shell or GUI:</p>
 ```bash
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
