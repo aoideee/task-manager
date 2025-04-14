@@ -1,1 +1,6 @@
+# Filename: .gitignore
+# Ignore node_modules directory (dependencies installed via npm)
 node_modules/
+
+# Ignore environment variables file (contains sensitive credentials)
+.env

@@ -1,33 +1,48 @@
 // Filename: app.js
 
-// Imports
+// Load environment variables from .env file
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
+import methodOverride from "method-override";
 import path from "path";
-import taskmanRoutes from "./routes/taskmanRoutes.js"
+import { fileURLToPath } from "url";
 
-// Express app setup
-const app = express(); // Creates the web server
+// Import routes for task management
+import taskRoutes from "./routes/taskmanRoutes.js";
 
-// Middleware setup
-app.use(express.urlencoded({ extended: true }));  // 
-app.use(express.static(path.join(process.cwd(), "public"))); 
+// Define __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+// Setup EJS as the view engine and specify the directory for views
 app.set("view engine", "ejs");
-app.set("views", path.join(process.cwd(), "views")); 
+app.set("views", path.join(__dirname, "views"));
 
-// Logging Middleware
-const loggingMiddleware = (req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next();
-}; 
+// Middleware to parse URL-encoded data (for form submissions) and JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use(loggingMiddleware);
+// Use method override to support HTTP verbs such as PUT, PATCH, and DELETE via query parameter _method
+app.use(methodOverride("_method"));
 
-// Route handler setup
-app.use("/", taskmanRoutes);
+// Serve static assets (like CSS, JS, images) from the /public directory
+app.use(express.static(path.join(__dirname, "public")));
 
-// Start the server
-const PORT = 3000;
+// Register the task routes with the base URL
+app.use("/", taskRoutes);
 
+// Basic error handling middleware - logs error stack and sends a generic error message to the client
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+
+// Start the server on the specified port (from environment variable or default 3000)
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-}); 
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

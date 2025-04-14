@@ -1,4 +1,25 @@
 <!-- Filename: /views/partials/footer.ejs -->
 
-    </body>
+</body>
+<!-- JavaScript function to toggle the visibility of the update form -->
+<script>
+  /**
+   * toggleUpdateForm - Toggles the display property of an element (typically an update form)
+   * identified by the provided formId.
+   */
+  function toggleUpdateForm(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return; // Exit if no element with the given ID exists
+
+    // Toggle the display style between 'none' and 'block'
+    if (form.style.display === 'none' || form.style.display === '') {
+      form.style.display = 'block';
+    } else {
+      form.style.display = 'none';
+    }
+  }
+</script>
+<footer>
+  <p>&copy; <%= new Date().getFullYear() %> Task Management App</p>
+</footer>
 </html>

@@ -1,5 +1,6 @@
 /* Filename: /public/styles.css */
 
+/* Global Styles */
 body {
   display: flex;
   flex-direction: column;
@@ -8,11 +9,10 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  background-color: #fbf9f3;
+  background-color: #FFFAF0;
 }
 
+/* Container Layout */
 .container {
   display: flex;
   justify-content: center;
@@ -27,14 +27,18 @@ body {
   margin-top: 30px;
 }
 
+/* Left Column (Add Task Form) */
 .left {
   width: 45%;
   background-color: #fffacc;
   padding: 20px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  height: 400px;         /* Fixed height */
+  overflow-y: auto;
 }
 
+/* Right Column (Task List) */
 .right {
   width: 45%;
   padding: 15px;
@@ -48,31 +52,10 @@ body {
   padding: 0;
 }
 
-.right li {
-  background-color: #fffacc;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  transform: rotate(-1deg);
-  transition: transform 0.2s;
-}
-
-.right li:hover {
-  transform: rotate(0deg) scale(1.02);
-}
-
-.right span {
-  flex: 1;
-  font-size: 16px;
-}
-
-.right form {
-  display: inline;
-}
-
+/* Form Elements */
 input,
-select {
+select,
+textarea {
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -95,6 +78,7 @@ button:hover {
   background-color: #ffd633;
 }
 
+/* Priority Tag Styles */
 .priority-tag {
   display: inline-block;
   margin-top: 5px;
@@ -119,6 +103,7 @@ button:hover {
   background-color: #f44336;
 }
 
+/* Error Message Box */
 .error-box {
   background-color: #ffe0e0;
   border: 1px solid #ff4d4d;
@@ -138,8 +123,87 @@ button:hover {
   list-style: disc;
 }
 
+/* Completed Task Style */
 .completed-task {
   text-decoration: line-through;
   color: gray;
   opacity: 0.7;
+}
+
+/* Task Form Layout (for Adding Tasks) */
+.task-form > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-form > div label {
+  flex: 0 0 120px;     
+  margin-right: 10px;
+  text-align: right;
+}
+
+.task-form > div input,
+.task-form > div select,
+.task-form > div textarea {
+  flex: 1;
+}
+
+/* Task Item (Yellow Box) - Consolidated Approach */
+.task-item {
+  display: flex;
+  flex-direction: column;       /* Top row and hidden edit form */
+  gap: 8px;                     /* Space between top row and edit form */
+  background-color: #fffacc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+  transform: rotate(-1deg);
+  transition: transform 0.2s;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.task-item:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Top Row within Task Item */
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Checkbox Form (inside top row) */
+.checkbox-form {
+  margin-right: 10px;
+}
+
+/* Task Text - expands to take up available space */
+.task-text {
+  flex: 1;
+  font-size: 16px;
+  word-wrap: break-word;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+/* Actions Container (Edit and Delete buttons) */
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* Hidden Update Form (revealed when editing) */
+.update-form {
+  background-color: #fffae6;
+  padding: 10px;
+  border-radius: 6px;
+  display: none;  /* Hidden by default */
+}
+
+.update-form.visible {
+  display: block;
 }

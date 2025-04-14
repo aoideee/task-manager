@@ -1,70 +1,176 @@
-<!--Filename: /views/home.ejs-->
+<!-- Filename: /views/home.ejs -->
 
-<%- include('partials/header') %>
-    <div class="center">
-      <h1>Task Mates🫱🏼‍🫲🏿</h1>
-      <h4>You're friendly task management system</h4>
-    </div>
-    <div class="container">
-    <div class="left">
-      <h3><%= title %></h3>
+<%- include('partials/header', { title: "Task Mates" }) %>
 
-      <% if (typeof errors !== 'undefined' && errors.length > 0) {%>
-        <div class="error-box">
-          <ul>
-            <% errors.forEach(function(error) {%>
-              <li><%= error %></li>
-            <% }); %>
-          </ul>
-        </div>
-        <% } %>
+<%
+  <!-- Use filterOptions as a fallback in case 'filter' was not provided. -->
+  let filterOptions = typeof filter !== 'undefined' ? filter : {};
+%>
 
-      <form method="POST" action="/add-task">
-        <label for="task">Enter Task</label>
-        <input type="text" name="task" id="task" required> <br> <br>
-        <label for="description">Add a Description (Optional)</label>
-        <input type="text" name="description" id="description"> <br> <br>
-        <label for="priority">Priority</label>
+<!-- HEADER SECTION: Main Title and Subtitle -->
+<div class="center">
+  <h1>Task Mates🫱🏼‍🫲🏿</h1>
+  <h4>You're friendly task management system</h4>
+</div>
+
+<!-- MAIN CONTAINER: Holds the Left (Add Task Form) and Right (Task List) Columns -->
+<div class="container">
+
+  <!-- LEFT COLUMN: Add New Task Form -->
+  <div class="left">
+    <h3>Add New Task</h3>
+    
+    <!-- Display Validation Errors, if any -->
+    <% if (errors && errors.length > 0) { %>
+      <div class="error-box">
+        <ul>
+          <% errors.forEach(function(error) { %>
+            <li><%= error %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+    
+    <form action="/tasks" method="POST" class="task-form">
+      <!-- Title Input -->
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required>
+      </div>
+      
+      <!-- Description Input (optional) -->
+      <div>
+        <label for="description">Description (optional):</label>
+        <textarea name="description" id="description"></textarea>
+      </div>
+      
+      <!-- Priority Selection -->
+      <div>
+        <label for="priority">Priority:</label>
         <select name="priority" id="priority">
-          <option value="Low" selected>Low</option>
-          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
           <option value="High">High</option>
         </select>
-        <br><br>
-        <button type="submit">Add Task</button>
-      </form>
-    </div>
-    <div class="right">
-    <h3>View List of Tasks</h3>
+      </div>
+      
+      <!-- Submit Button -->
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+
+  <!-- RIGHT COLUMN: Task List and Filtering -->
+  <div class="right">
+    <h3>Task List</h3>
+
+    <!-- FILTER/SEARCH FORM -->
+    <form id="filterForm" action="/" method="GET" style="margin-bottom: 20px;">
+      <!-- Filter by Priority -->
+      <label for="priorityFilter">Priority:</label>
+      <select name="priority" id="priorityFilter">
+        <option value="">All</option>
+        <option value="Low" <%= filterOptions.priority === "Low" ? "selected" : "" %>>Low</option>
+        <option value="Medium" <%= filterOptions.priority === "Medium" ? "selected" : "" %>>Medium</option>
+        <option value="High" <%= filterOptions.priority === "High" ? "selected" : "" %>>High</option>
+      </select>
+
+      <!-- Filter by Completion Status -->
+      <label for="completedFilter">Status:</label>
+      <select name="completed" id="completedFilter">
+        <option value="">All</option>
+        <option value="true" <%= filterOptions.completed === "true" ? "selected" : "" %>>Completed</option>
+        <option value="false" <%= filterOptions.completed === "false" ? "selected" : "" %>>Incomplete</option>
+      </select>
+
+      <!-- Search Field -->
+      <label for="searchFilter">Search:</label>
+      <input type="text" name="search" id="searchFilter"
+             value="<%= filterOptions.search || '' %>" placeholder="Search tasks...">
+
+      <!-- Hidden Pagination Inputs -->
+      <input type="hidden" name="page" value="<%= filterOptions.page ? filterOptions.page : 1 %>">
+      <input type="hidden" name="limit" value="<%= filterOptions.limit ? filterOptions.limit : 5 %>">
+
+      <button type="submit">Apply Filters</button>
+    </form>
+
+    <!-- TASK LIST -->
     <ul style="list-style-type: none; padding: 0;">
-    <% tasks.forEach(function(task, index) { %>
-        <li style="display: flex; align-items: center; gap: 10px;">
-            <!-- Task Complete Form (Inline Checkbox) -->
-            <form method="POST" action="/toggle-task" style="display: inline;">
-                <input type="hidden" name="index" value="<%= task.id %>">
-                <input 
-                    type="checkbox" 
-                    onchange="this.form.submit()" 
-                    <%= task.completed ? "checked" : "" %> >
+      <% tasks.forEach((task, index) => { %>
+        <li class="task-item <%= task.completed ? 'completed-task' : '' %>">
+          <!-- TOP ROW: Contains Checkbox, Task Text, and Action Buttons -->
+          <div class="top-row">
+            <!-- Checkbox for toggling task completion -->
+            <form action="/tasks/<%= task.id %>?_method=PATCH" method="POST" class="checkbox-form">
+              <input type="checkbox" onchange="this.form.submit()"
+                    <%= task.completed ? 'checked' : '' %>>
             </form>
-            <!-- Task Name with Conditional Style for Completed -->
-            <span class="<%= task.completed ? 'completed-task' : '' %>">
-              <%= index + 1 %>. <%= task.title %>
-                <% if (task.description) { %> - <em><%= task.description %></em> <% } %>
-                <% if (task.priority) { %>
-                  <div class="priority-tag <%= task.priority.toLowerCase() %>">
-                    <%= task.priority %>
-                  </div>
-                <% } %>
-            </span>
-            <!-- Delete Form (Inline) -->
-            <form method="POST" action="/delete-task" style="display: inline;">
-                <input type="hidden" name="index" value="<%= task.id %>">
+
+            <!-- Task Text: Title and Description -->
+            <div class="task-text">
+              <strong><%= index + 1 %>. <%= task.title %></strong>
+              <% if (task.description) { %>
+                - <em><%= task.description %></em>
+              <% } %>
+            </div>
+
+            <!-- Action Buttons: Edit and Delete -->
+            <div class="actions">
+              <button type="button" onclick="toggleUpdateForm('edit-form-<%= task.id %>')">
+                ✏️ Edit
+              </button>
+              <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this task?');">
                 <button type="submit">❌ Delete</button>
-            </form>
+              </form>
+            </div>
+          </div>
+
+          <!-- PRIORITY ROW: Displays Priority on a Separate Line -->
+          <% if (task.priority) { %>
+            <div class="priority-row">
+              <div class="priority-tag <%= task.priority.toLowerCase() %>">
+                <%= task.priority %>
+              </div>
+            </div>
+          <% } %>
+
+          <!-- HIDDEN EDIT FORM: Revealed by Clicking the Edit Button -->
+          <form id="edit-form-<%= task.id %>" action="/tasks/<%= task.id %>?_method=PUT" method="POST"
+                class="update-form" style="display: none;">
+            <input type="text" name="title" value="<%= task.title %>" required>
+            <input type="text" name="description" value="<%= task.description %>" placeholder="Update description">
+            <select name="priority">
+              <option value="Low" <%= task.priority === 'Low' ? 'selected' : '' %>>Low</option>
+              <option value="Medium" <%= task.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+              <option value="High" <%= task.priority === 'High' ? 'selected' : '' %>>High</option>
+            </select>
+            <button type="submit">✅ Save</button>
+          </form>
         </li>
-    <% }); %>
-  </ul>
+      <% }); %>
+    </ul>
+
+    <!-- PAGINATION (Optional) -->
+    <div class="pagination" style="margin-top:20px;">
+      <% 
+        const currentPage = filterOptions.page ? filterOptions.page : 1;
+        const limitVal = filterOptions.limit ? filterOptions.limit : 5;
+      %>
+      <% if (currentPage > 1) { %>
+        <a href="?priority=<%= filterOptions.priority || '' %>&completed=<%= filterOptions.completed !== undefined ? filterOptions.completed : '' %>&search=<%= filterOptions.search || '' %>&page=<%= currentPage - 1 %>&limit=<%= limitVal %>">
+          Previous
+        </a>
+      <% } %>
+      <span>Page <%= currentPage %></span>
+      <% if (tasks.length === limitVal) { %>
+        <a href="?priority=<%= filterOptions.priority || '' %>&completed=<%= filterOptions.completed !== undefined ? filterOptions.completed : '' %>&search=<%= filterOptions.search || '' %>&page=<%= currentPage + 1 %>&limit=<%= limitVal %>">
+          Next
+        </a>
+      <% } %>
+    </div>
+
   </div>
-  </div>
+</div>
+
 <%- include('partials/footer') %>

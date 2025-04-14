@@ -1,5 +1,13 @@
-<!--Filename: /views/notfound.ejs-->
+<!-- 
+  Filename: /views/notfound.ejs
+
+  This view is rendered for any undefined routes, displaying an error message.
+  It includes the header and footer partials for consistent layout.
+-->
 
 <%- include('partials/header') %>
-    <h1><%= message %></h1>
+
+  <!-- Display the error message passed from the controller -->
+  <h1><%= message %></h1>
+
 <%- include('partials/footer') %>
