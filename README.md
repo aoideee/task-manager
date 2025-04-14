@@ -70,6 +70,24 @@ npm start
 ```
 Open your browser and navigate to http://localhost:3000 to use the app.
 
+## Demo Video
+I have recorded a short demo video that shows the following functionalities:
+
+- Adding a task.
+
+- Marking a task as complete.
+
+- Updating/editing a task.
+
+- Deleting a task.
+
+- Stretch goal features (search, filtering, pagination).
+
+- A brief summary of lessons learned.
+
+Watch the demo here:<a href="https://youtu.be/6fxS6ETDlBc">Completed Task Manager App</a>
+
+
 ## Project Structure
 - /config/db.js: Database connection configuration using PostgreSQL and connection pooling.
 
