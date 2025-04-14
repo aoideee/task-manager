@@ -85,7 +85,7 @@ I have recorded a short demo video that shows the following functionalities:
 
 - A brief summary of lessons learned.
 
-Watch the demo here:<a href="https://youtu.be/6fxS6ETDlBc">Completed Task Manager App</a>
+Watch the demo here: <a href="https://youtu.be/6fxS6ETDlBc">Completed Task Manager App</a>
 
 
 ## Project Structure
